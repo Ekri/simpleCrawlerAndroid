@@ -2,15 +2,20 @@ package com.maciega.bartosz.crawl.model;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.maciega.bartosz.crawl.storage.DbTransactionListener;
 import com.maciega.bartosz.crawl.storage.StorageTransactionResult;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import rx.Observable;
 
 /**
  * Created by bartoszmaciega on 17/10/16.
@@ -57,7 +62,7 @@ public class Spider implements DbTransactionListener {
     }
 
 
-    class SpiderAsync extends AsyncTask<String, String, Void> implements CrawlListener {
+    class SpiderAsync extends AsyncTask<String, String, Void> implements CrawlListener, DbTransactionListener {
 
 
         @Override
@@ -93,12 +98,21 @@ public class Spider implements DbTransactionListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            SpiderDbServant.get(context,this)
+                    .saveUrls(UrlsMapper.convert(new ArrayList<String>(visitedPages)));
             Toast.makeText(context, "searching finished", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCrawled(String pageUrl) {
 
+        }
+
+        @Override
+        public void onResult(StorageTransactionResult result) {
+            if(result.isSuccess()){
+                Log.d("success","success");
+            }
         }
     }
 

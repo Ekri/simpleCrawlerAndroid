@@ -8,11 +8,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import io.realm.RealmObject;
 import rx.Observable;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Bartosz on 2016-10-18.
@@ -39,7 +35,7 @@ public class DbUrlHelper {
         });
     }
 
-    public void saveAsync(final List<RealmObject> list){
+    public void saveAsync(final List<Url> list){
         executor.submit(new Runnable() {
             @Override
             public void run() {

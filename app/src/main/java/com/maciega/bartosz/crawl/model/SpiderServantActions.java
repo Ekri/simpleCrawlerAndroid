@@ -10,7 +10,7 @@ import io.realm.RealmObject;
 
 public interface SpiderServantActions {
     void saveUrl(Url url);
-    void saveUrls(List<RealmObject> list);
+    void saveUrls(List<Url> list);
     void deleteUrl(Url url);
     void deleteAll(Url url);
     void clearDb();

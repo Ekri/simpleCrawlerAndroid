@@ -10,7 +10,7 @@ import io.realm.RealmObject;
 
 public interface Storage {
     void save(RealmObject object);
-    void saveList(List<RealmObject> objects);
+    <T extends  RealmObject> void saveList(List<RealmObject> objects);
     void delete(RealmObject object);
     void deleteAllObjects(RealmObject object);
     void clearDatabase();

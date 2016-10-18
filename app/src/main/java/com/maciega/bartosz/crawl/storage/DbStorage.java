@@ -54,9 +54,10 @@ public class DbStorage implements UrlStorage {
     }
 
     @Override
-    public void saveList(List<RealmObject> objects) {
+    public <T extends RealmObject> void saveList(List<RealmObject> objects) {
 
     }
+
 
     @Override
     public void delete(RealmObject object) {
@@ -82,6 +83,7 @@ public class DbStorage implements UrlStorage {
     public Url get(String primaryKey) {
         return null;
     }
+
 
 
     private void passErrorToListener(Throwable throwable){

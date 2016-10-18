@@ -58,7 +58,7 @@ public class SpiderDbServant implements SpiderServantActions {
     }
 
     @Override
-    public void saveUrls(final List<RealmObject> list) {
+    public void saveUrls(final List<Url> list) {
         Observable.just(true)
                 .observeOn(MAIN_SCHEDULER)
                 .subscribeOn(IO_SCHEDULER)
