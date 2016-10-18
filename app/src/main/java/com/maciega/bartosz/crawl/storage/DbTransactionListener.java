@@ -5,5 +5,5 @@ package com.maciega.bartosz.crawl.storage;
  */
 
 public interface DbTransactionListener {
-    void onResult();
+    void onResult(StorageTransactionResult result);
 }

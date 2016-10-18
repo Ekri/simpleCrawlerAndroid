@@ -11,6 +11,15 @@ public class StorageTransactionResult<T extends  Object> {
     private T result;
     private List<T> resultsList;
 
+
+    public static StorageTransactionResult emptySuccessResult(){
+        return new StorageTransactionResult();
+    }
+
+
+    private StorageTransactionResult(){}
+
+
     public StorageTransactionResult(Throwable error){
         this.error = error;
     }

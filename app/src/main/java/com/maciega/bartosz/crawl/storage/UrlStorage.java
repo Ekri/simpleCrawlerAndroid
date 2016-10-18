@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface UrlStorage extends Storage {
-    List<Url> get(String primaryKey);
+    Url get(String primaryKey);
 }
