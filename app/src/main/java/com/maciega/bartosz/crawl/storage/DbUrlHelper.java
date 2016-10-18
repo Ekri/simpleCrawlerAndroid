@@ -23,14 +23,10 @@ public class DbUrlHelper {
     private ThreadPoolExecutor executor;
     private Context context;
     private UrlStorage storage;
-    private DbTransactionListener transactionListener;
-    private final Scheduler IO_SCHEDULER = Schedulers.io();
-    private final Scheduler MAIN_SCHEDULER = AndroidSchedulers.mainThread();
 
-    public DbUrlHelper(Context context, UrlStorage storage, DbTransactionListener transactionListener) {
+    public DbUrlHelper(Context context, UrlStorage storage) {
         this.context = context;
         this.storage = storage;
-        this.transactionListener = transactionListener;
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
     }
 

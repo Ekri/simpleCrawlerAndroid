@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.maciega.bartosz.crawl.storage.DbTransactionListener;
+import com.maciega.bartosz.crawl.storage.StorageTransactionResult;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.Set;
  * Created by bartoszmaciega on 17/10/16.
  */
 
-public class Spider {
+public class Spider implements DbTransactionListener {
     private int max_pages = 20;
     private Set<String> visitedPages = new HashSet<>();
     private List<String> pagesToVisit = new LinkedList<>();
@@ -46,6 +49,11 @@ public class Spider {
 
         SpiderAsync spiderAsync = new SpiderAsync();
         spiderAsync.execute(url);
+    }
+
+    @Override
+    public void onResult(StorageTransactionResult result) {
+
     }
 
 
