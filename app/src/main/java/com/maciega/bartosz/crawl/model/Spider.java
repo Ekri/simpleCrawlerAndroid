@@ -71,9 +71,9 @@ public class Spider implements DbTransactionListener {
         protected Void doInBackground(String... params) {
             String url = params[0];
 
-            if (!url.contains("http")) {
-                url = "http://" + url;
-            }
+//            if (!url.contains("http") && !url.contains("https")) {
+//                url = "http://" + url;
+//            }
             pagesToVisit.add(url);
 
             while (visitedPages.size() < max_pages && !pagesToVisit.isEmpty()) {

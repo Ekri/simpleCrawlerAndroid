@@ -49,6 +49,10 @@ public class CrawlActivity extends AppCompatActivity implements CrawlListener {
             return;
         }
 
+        if (!url.contains("http") && !url.contains("https")) {
+            url = "http://" + url;
+        }
+
         Spider spider = new Spider(this, Integer.valueOf(countEt.getText().toString().isEmpty() ? "0" :
                 countEt.getText().toString()), this);
         spider.search(url);
