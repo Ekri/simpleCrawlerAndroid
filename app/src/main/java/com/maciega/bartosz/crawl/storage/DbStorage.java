@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import io.realm.Realm;
+import io.realm.RealmModel;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import rx.Observable;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,46 +24,55 @@ import rx.schedulers.Schedulers;
 
 public class DbStorage implements UrlStorage {
 
-    private ThreadPoolExecutor executor;
     private Context context;
-    private DbTransactionListener transactionListener;
-    private final Scheduler IO_SCHEDULER = Schedulers.io();
-    private final Scheduler MAIN_SCHEDULER = AndroidSchedulers.mainThread();
 
-    public DbStorage(Context context, DbTransactionListener transactionListener){
+    public DbStorage(Context context) {
         this.context = context;
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
-        this.transactionListener = transactionListener;
     }
 
     @Override
     public void save(RealmObject object) {
-        Observable.just(true)
-                .subscribeOn(IO_SCHEDULER)
-                .observeOn(MAIN_SCHEDULER)
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            realm.insertOrUpdate(object);
+            realm.commitTransaction();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            realm.cancelTransaction();
+        }
+        realm.close();
 
-
-                        transactionListener.onResult(StorageTransactionResult.emptySuccessResult());
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                       passErrorToListener(throwable);
-                    }
-                });
     }
 
     @Override
     public <T extends RealmObject> void saveList(List<RealmObject> objects) {
-
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            realm.insertOrUpdate(objects);
+            realm.commitTransaction();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            realm.cancelTransaction();
+        }
+        realm.close();
     }
 
 
     @Override
     public void delete(RealmObject object) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            //TODO rethink how this should be designed
+//            RealmResults<RealmModel> result = realm.where(object.getClass()).equalTo(object)
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+            realm.cancelTransaction();
+        }
+        realm.close();
 
     }
 
@@ -84,10 +96,4 @@ public class DbStorage implements UrlStorage {
         return null;
     }
 
-
-
-    private void passErrorToListener(Throwable throwable){
-        StorageTransactionResult result = new StorageTransactionResult(throwable);
-        transactionListener.onResult(result);
-    }
 }

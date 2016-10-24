@@ -35,14 +35,14 @@ public class DbUrlHelper {
         });
     }
 
-    public void saveAsync(final List<Url> list){
-        executor.submit(new Runnable() {
-            @Override
-            public void run() {
-                storage.saveList(list);
-            }
-        });
-    }
+//    public void saveAsync(final List<Url> list){
+//        executor.submit(new Runnable() {
+//            @Override
+//            public void run() {
+//                storage.saveList(list);
+//            }
+//        });
+//    }
 
     public void deleteAsync(final Url realmObject){
         executor.submit(new Runnable() {
