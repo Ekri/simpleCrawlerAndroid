@@ -1,7 +1,5 @@
 package com.maciega.bartosz.crawl.model;
 
-import android.os.AsyncTask;
-
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +16,6 @@ import java.util.List;
 
 public class CrawlerItself {
     private List<String> links = new ArrayList<>();
-    private Document htmlDocument;
     private CrawlListener crawlListener;
     private static final String USER_AGENT =
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
@@ -30,6 +27,9 @@ public class CrawlerItself {
 
 
     public boolean crawl(String nextUrl) {
+        if (nextUrl == null || nextUrl.isEmpty()) {
+            return false;
+        }
         Connection connection = Jsoup.connect(nextUrl).userAgent(USER_AGENT);
         try {
             Document htmlDocument = connection.get();

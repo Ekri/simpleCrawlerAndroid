@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.maciega.bartosz.crawl.adapter.CrawlLogAdapter;
 import com.maciega.bartosz.crawl.model.CrawlListener;
 import com.maciega.bartosz.crawl.model.Spider;
 

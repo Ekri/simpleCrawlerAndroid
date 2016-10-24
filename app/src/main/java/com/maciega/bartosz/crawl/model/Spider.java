@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.maciega.bartosz.crawl.storage.DbStorage;
 import com.maciega.bartosz.crawl.storage.DbTransactionListener;
+import com.maciega.bartosz.crawl.storage.Storage;
 import com.maciega.bartosz.crawl.storage.StorageTransactionResult;
 
 import java.util.ArrayList;
@@ -98,8 +100,8 @@ public class Spider implements DbTransactionListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            SpiderDbServant.get(context,this)
-                    .saveUrls(UrlsMapper.convert(new ArrayList<String>(visitedPages)));
+            Storage storage = new DbStorage(context);
+            storage.saveList(UrlsMapper.convert(visitedPages));
             Toast.makeText(context, "searching finished", Toast.LENGTH_SHORT).show();
         }
 

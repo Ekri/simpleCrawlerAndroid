@@ -8,8 +8,6 @@ import android.view.View;
 public class StartActivity extends AppCompatActivity {
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,16 +15,17 @@ public class StartActivity extends AppCompatActivity {
         findViewById(R.id.crawl_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartActivity.this,CrawlActivity.class);
+                Intent intent = new Intent(StartActivity.this, CrawlActivity.class);
                 startActivity(intent);
             }
         });
 
-     findViewById(R.id.data_btn).setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-
-         }
-     });
+        findViewById(R.id.data_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StartActivity.this, DataActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

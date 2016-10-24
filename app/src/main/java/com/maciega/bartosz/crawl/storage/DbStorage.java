@@ -18,6 +18,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 /**
  * Created by Bartosz on 2016-10-18.
  */
@@ -65,8 +67,8 @@ public class DbStorage implements UrlStorage {
         Realm realm = Realm.getDefaultInstance();
         try {
             realm.beginTransaction();
-            //TODO rethink how this should be designed
-//            RealmResults<RealmModel> result = realm.where(object.getClass()).equalTo(object)
+            realm.delete(object.getClass());
+            realm.commitTransaction();
 
         } catch (Throwable e) {
             e.printStackTrace();
@@ -78,22 +80,49 @@ public class DbStorage implements UrlStorage {
 
     @Override
     public void deleteAllObjects(RealmObject object) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            RealmResults<RealmObject> result = (RealmResults<RealmObject>) realm.where(object.getClass()).findAll();
+            realm.beginTransaction();
+            result.deleteAllFromRealm();
+            realm.commitTransaction();
 
+        } catch (Throwable e) {
+            e.printStackTrace();
+            realm.cancelTransaction();
+        }
+
+        realm.close();
     }
 
     @Override
     public void clearDatabase() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            realm.deleteAll();
+            realm.commitTransaction();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            realm.cancelTransaction();
+        }
 
+        realm.close();
     }
 
     @Override
     public <T extends RealmObject> List<T> getList(Class<T> classToGet) {
-        return null;
+        Realm realm = Realm.getDefaultInstance();
+        List<T> result = realm.where(classToGet).findAll();
+        List<T> copy = realm.copyFromRealm(result);
+        return copy;
     }
 
     @Override
     public Url get(String primaryKey) {
-        return null;
+        Realm realm = Realm.getDefaultInstance();
+        Url result = realm.where(Url.class).equalTo("url",primaryKey).findFirst();
+        return result;
     }
 
 }
