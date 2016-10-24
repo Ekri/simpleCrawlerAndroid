@@ -3,6 +3,8 @@ package com.maciega.bartosz.crawl;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.maciega.bartosz.crawl.adapter.DataAdapter;
@@ -30,13 +32,30 @@ public class DataActivity extends AppCompatActivity implements DataPresenter.Dat
         presenter = new DataPresenter(this, this);
         dataAdapter = new DataAdapter(this);
         listView.setAdapter(dataAdapter);
+        initToolbar();
+    }
 
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         load();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void load() {

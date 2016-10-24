@@ -3,7 +3,9 @@ package com.maciega.bartosz.crawl;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,6 +40,14 @@ public class CrawlActivity extends AppCompatActivity implements CrawlListener {
                 crawl();
             }
         });
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 
@@ -64,6 +74,14 @@ public class CrawlActivity extends AppCompatActivity implements CrawlListener {
         crawlLogLv.setAdapter(adapter);
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onCrawled(String pageUrl) {
