@@ -70,20 +70,21 @@ public class Spider implements DbTransactionListener {
         @Override
         protected Void doInBackground(String... params) {
             String url = params[0];
-
-//            if (!url.contains("http") && !url.contains("https")) {
-//                url = "http://" + url;
-//            }
             pagesToVisit.add(url);
 
             while (visitedPages.size() < max_pages && !pagesToVisit.isEmpty()) {
-                String currentUrl;
-                CrawlerItself crawler = new CrawlerItself(this);
-                currentUrl = nextUrl();
-                crawler.crawl(currentUrl);
-                publishProgress(currentUrl);
+                try {
+                    String currentUrl;
+                    CrawlerItself crawler = new CrawlerItself(this);
+                    currentUrl = nextUrl();
+                    crawler.crawl(currentUrl);
+                    publishProgress(currentUrl);
 
-                pagesToVisit.addAll(crawler.getLinks());
+                    pagesToVisit.addAll(crawler.getLinks());
+                } catch (Throwable e) {
+                    return null;
+                }
+
             }
 
 
@@ -112,8 +113,8 @@ public class Spider implements DbTransactionListener {
 
         @Override
         public void onResult(StorageTransactionResult result) {
-            if(result.isSuccess()){
-                Log.d("success","success");
+            if (result.isSuccess()) {
+                Log.d("success", "success");
             }
         }
     }
