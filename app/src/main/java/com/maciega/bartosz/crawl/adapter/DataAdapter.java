@@ -1,6 +1,11 @@
 package com.maciega.bartosz.crawl.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +27,7 @@ public class DataAdapter extends BaseAdapter {
     private List<Url> urls;
     private Context context;
     private LayoutInflater inflater;
+    private String query = "";
 
 
     public DataAdapter(Context context) {
@@ -36,6 +42,15 @@ public class DataAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+
+    public void resetQuery() {
+        query = "";
+    }
 
     @Override
     public int getCount() {
@@ -58,6 +73,21 @@ public class DataAdapter extends BaseAdapter {
         View view = inflater.inflate(R.layout.data_item, parent, false);
         TextView textView = (TextView) view.findViewById(R.id.url);
         textView.setText(item.getUrl() != null ? item.getUrl() : "empty record");
+        if (!query.isEmpty())
+            higlightWithQuery(textView);
         return view;
+    }
+
+
+    private void higlightWithQuery(TextView textView) {
+        String text = textView.getText().toString();
+        int startIndex = text.indexOf(query);
+        int endIndex = startIndex + query.length();
+        if (startIndex > 0 && endIndex > startIndex) {
+            SpannableStringBuilder builder = new SpannableStringBuilder(text);
+            builder.setSpan(new BackgroundColorSpan(Color.YELLOW), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            textView.setText(builder);
+        }
+
     }
 }

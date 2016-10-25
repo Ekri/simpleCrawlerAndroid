@@ -90,6 +90,7 @@ public class DataActivity extends AppCompatActivity implements DataPresenter.Dat
         @Override
         public boolean onMenuItemActionCollapse(MenuItem item) {
             presenter.finishQuery();
+            dataAdapter.resetQuery();
             return true;
         }
     };
@@ -105,6 +106,7 @@ public class DataActivity extends AppCompatActivity implements DataPresenter.Dat
         presenter.submitQuery(query);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+        dataAdapter.setQuery(query);
         return true;
     }
 
