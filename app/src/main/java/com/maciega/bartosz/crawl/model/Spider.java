@@ -102,7 +102,7 @@ public class Spider implements DbTransactionListener {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Storage storage = new DbStorage(context);
-            storage.saveList(UrlsMapper.convert(visitedPages));
+            storage.saveList(UrlsMapper.INSTANCE.convert(visitedPages));
             Toast.makeText(context, "searching finished", Toast.LENGTH_SHORT).show();
         }
 
